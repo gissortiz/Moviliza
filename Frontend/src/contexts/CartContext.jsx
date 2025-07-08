@@ -2,20 +2,18 @@ import { createContext, useState, useEffect } from 'react';
 
 export const CartContext = createContext();
 
-export function CartProvider({ children }) {
+const CartProvider = ({ children }) => {
   const [cart, setCart] = useState(() => {
-    // Intenta cargar del localStorage
     const stored = localStorage.getItem('cart');
     return stored ? JSON.parse(stored) : [];
   });
 
-  // 💡 Cada cambio guarda en localStorage
   useEffect(() => {
     localStorage.setItem('cart', JSON.stringify(cart));
   }, [cart]);
 
   const addToCart = (service) => {
-    const exists = cart.find(item => item.id === service.id);
+    const exists = cart.find(item => item.id === service.id || item._id === service._id);
     if (exists) {
       alert('Este servicio ya está en el carrito.');
     } else {
@@ -24,11 +22,12 @@ export function CartProvider({ children }) {
   };
 
   const removeFromCart = (serviceId) => {
-    setCart(cart.filter(item => item.id !== serviceId));
+    setCart(cart.filter(item => item.id !== serviceId && item._id !== serviceId));
   };
 
   const clearCart = () => {
     setCart([]);
+    localStorage.removeItem('cart');
   };
 
   return (
@@ -36,4 +35,6 @@ export function CartProvider({ children }) {
       {children}
     </CartContext.Provider>
   );
-}
+};
+
+export default CartProvider;

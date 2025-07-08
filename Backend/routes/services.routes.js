@@ -13,6 +13,6 @@ router.post('/', createService);
 router.get('/', getServices);
 router.get('/:id', getServiceById);
 router.put('/:id', updateService);
-router.delete('/:id', deleteService);
+router.delete('/:id', deleteService);// la ruta es 
 
 export default router;

@@ -8,17 +8,15 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import MenuIcon from '@mui/icons-material/Menu';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import Badge from '@mui/material/Badge'; // 👈 Importa Badge!
+import Badge from '@mui/material/Badge';
 import { Link } from 'react-router-dom';
 import { useContext, useState } from 'react';
 import { AuthContext } from '../contexts/AuthContext.jsx';
-import { CartContext } from '../contexts/CartContext.jsx'; // 👈 Conecta el CartContext
+import { CartContext } from '../contexts/CartContext.jsx';
 
-export default function Navbar() {
+const Navbar = () => {
   const { user, logout } = useContext(AuthContext);
-  const { cart } = useContext(CartContext); // ✅ Trae el carrito
-  console.log("carrito: ", cart); // 👈 Verifica que el carrito se esté obteniendo correctamente
-  console.log("usuario: ", user); // 👈 Verifica que el carrito se esté obteniendo correctamente
+  const { cart } = useContext(CartContext);
   const [anchorEl, setAnchorEl] = useState(null);
 
   const handleMenu = (event) => {
@@ -28,15 +26,16 @@ export default function Navbar() {
     setAnchorEl(null);
   };
 
+  const isAdmin = user?.email === 'admin@moviliza.com';
+
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static" sx={{ bgcolor: '#1976d2' }}>
+      <AppBar position="static" sx={{ bgcolor: '#0E3359' }}>
         <Toolbar>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             Moviliza
           </Typography>
 
-          {/* Menú hamburguesa en mobile */}
           <Box sx={{ display: { xs: 'block', md: 'none' } }}>
             <IconButton
               size="large"
@@ -57,6 +56,11 @@ export default function Navbar() {
               {user ? (
                 <>
                   <MenuItem component={Link} to="/profile" onClick={handleClose}>Perfil</MenuItem>
+                  {isAdmin && (
+                    <MenuItem component={Link} to="/admin/services" onClick={handleClose}>
+                      Admin
+                    </MenuItem>
+                  )}
                   <MenuItem onClick={() => { logout(); handleClose(); }}>Salir</MenuItem>
                 </>
               ) : (
@@ -73,13 +77,15 @@ export default function Navbar() {
             </Menu>
           </Box>
 
-          {/* Botones normales en desktop */}
           <Box sx={{ display: { xs: 'none', md: 'flex' }, gap: 1 }}>
             <Button color="inherit" component={Link} to="/">Home</Button>
             <Button color="inherit" component={Link} to="/services">Servicios</Button>
             {user ? (
               <>
                 <Button color="inherit" component={Link} to="/profile">Perfil</Button>
+                {isAdmin && (
+                  <Button color="inherit" component={Link} to="/admin/services">Admin</Button>
+                )}
                 <Button color="inherit" onClick={logout}>Salir</Button>
               </>
             ) : (
@@ -98,4 +104,7 @@ export default function Navbar() {
       </AppBar>
     </Box>
   );
-}
+};
+
+export default Navbar;
+

@@ -15,7 +15,7 @@ export const register = async (req, res) => {
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    const newCart = new Cart({ products: []}); // Crear un carrito nuevo para el usuario
+    const newCart = new Cart({ products: [] });
     await newCart.save();
 
     const newUser = new User({

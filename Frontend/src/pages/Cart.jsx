@@ -17,7 +17,7 @@ function Cart() {
   const { cart, removeFromCart, clearCart } = useContext(CartContext);
   const [dates, setDates] = useState({});
   const { user } = useContext(AuthContext);
-  
+
   const handleDateChange = (id, value) => {
     setDates({ ...dates, [id]: value });
   };
@@ -32,18 +32,17 @@ function Cart() {
     }
 
     try {
-      // 💙 Enviar carrito + fechas si tu back los necesita
       const res = await API.post(
-  '/cart/checkout',
-  {user: user, items: cart, dates}, 
-  {
-    headers: {
-      Authorization: `${localStorage.getItem('token')}`
-    }
-  }
-);
+        '/cart/checkout',
+        { user: user, items: cart, dates },
+        {
+          headers: {
+            Authorization: `${localStorage.getItem('token')}`
+          }
+        }
+      );
 
-window.location.href = res.data.url;
+      window.location.href = res.data.url;
 
 
     } catch (err) {

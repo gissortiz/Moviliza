@@ -30,7 +30,7 @@ const serviceSchema = new mongoose.Schema({
     type: Number,
     required: true
   },
-  duration: {      
+  duration: {
     type: Number
   },
   imageUrl: {

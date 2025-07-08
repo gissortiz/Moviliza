@@ -1,4 +1,4 @@
-import Stripe from 'stripe'; // ✅ ES Module compatible
+import Stripe from 'stripe';
 import Cart from '../models/Cart.js';
 import User from '../models/User.js';
 
@@ -6,27 +6,37 @@ const stripe = new Stripe(process.env.STRIPE_KEY, {
   apiVersion: '2024-04-10'
 });
 
-// Esta función crea una sesión de pago en Stripe
-// y devuelve la URL a la que el usuario debe ser redirigido para completar el pago.
 export const createCheckoutSession = async (req, res) => {
   try {
-    console.log("Body recibido:", req.body);
 
-    const { user, items } = req.body;
+    const { user, items, dates } = req.body;
 
     if (!items || items.length === 0) {
       return res.status(400).json({ msg: "Carrito vacío" });
     }
 
+    const foundUser = await User.findById(user.id);
+    if (!foundUser) {
+      return res.status(404).json({ msg: "Usuario no encontrado" });
+    }
+
+    const cartItems = items.map(item => ({
+      service: item.id,
+      quantity: 1,
+      priceID: item.priceID,
+      date: dates[item.id] || null,
+      payment_status: 'pago_pendiente'
+    }));
+
+
+    const cart = new Cart({ user: foundUser._id, items: cartItems });
+    await cart.save();
+
+    foundUser.cart = cart._id;
+    await foundUser.save();
+
     const lineItems = items.map(item => ({
-      price_data: {
-        currency: 'clp',
-        product_data: {
-          name: item.name,
-          images: [item.img]
-        },
-        unit_amount: item.price
-      },
+      price: item.priceID,
       quantity: 1
     }));
 
@@ -45,8 +55,6 @@ export const createCheckoutSession = async (req, res) => {
     res.status(500).json({ msg: err.message });
   }
 };
-
-
 
 
 export const getCart = async (req, res) => {
