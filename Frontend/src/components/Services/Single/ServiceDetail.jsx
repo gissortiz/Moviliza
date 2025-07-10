@@ -13,6 +13,7 @@ import {
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import { AuthContext } from '../../../contexts/AuthContext.jsx';
 import { CartContext } from '../../../contexts/CartContext.jsx';
+import { toast } from 'react-toastify';
 
 import traumaImg from '../../../assets/images/trauma.webp';
 import deportivoImg from '../../../assets/images/deportivo.webp';
@@ -48,7 +49,7 @@ const ServiceDetail = () => {
 
   const handleAddToCart = () => {
     if (!user) {
-      alert('Debes iniciar sesión para agregar al carrito.');
+      toast.error('Debes iniciar sesión para agregar al carrito.');
       return;
     }
 
@@ -63,7 +64,7 @@ const ServiceDetail = () => {
       price: service.price
     });
 
-    alert(`"${service.name}" agregado al carrito 🚀`);
+    toast.success(`"${service.name}" agregado al carrito 🚀`);
   };
 
   const handleBack = () => {

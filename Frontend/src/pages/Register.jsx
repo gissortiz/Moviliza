@@ -9,6 +9,7 @@ import {
   Button,
   Box
 } from '@mui/material';
+import { toast } from 'react-toastify';
 
 function Register() {
   const [name, setName] = useState('');
@@ -30,7 +31,7 @@ function Register() {
       navigate('/');
     } catch (err) {
       console.error(err);
-      alert('Error al registrar usuario');
+      toast.error('Error al registrar usuario');
     }
   };
 

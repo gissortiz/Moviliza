@@ -12,6 +12,7 @@ import {
   Button,
   Box
 } from '@mui/material';
+import { toast } from 'react-toastify';
 
 function Cart() {
   const { cart, removeFromCart, clearCart } = useContext(CartContext);
@@ -27,7 +28,7 @@ function Cart() {
   const handleCheckout = async () => {
     const allSelected = cart.every(item => dates[item.id]);
     if (!allSelected) {
-      alert('Selecciona fecha/hora para todos los servicios.');
+      toast.error('Selecciona fecha/hora para todos los servicios.');
       return;
     }
 
@@ -43,11 +44,9 @@ function Cart() {
       );
 
       window.location.href = res.data.url;
-
-
     } catch (err) {
       console.error(err);
-      alert('Error en el checkout');
+      toast.error('Error en el checkout');
     }
   };
 

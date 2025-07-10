@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import API from "../../api/axios";
 import { Container, Typography, Button, Table, TableHead, TableBody, TableRow, TableCell, Box } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import { toast } from 'react-toastify';
 
 const AdminServices = () => {
   const [services, setServices] = useState([]);
@@ -30,10 +31,10 @@ const AdminServices = () => {
       try {
         await API.delete(`/services/${serviceId}`);
         setServices(services.filter((s) => s._id !== serviceId));
-        alert("Servicio eliminado correctamente ✅");
+        toast.success("Servicio eliminado correctamente ✅");
       } catch (err) {
         console.error(err);
-        alert("Error al eliminar servicio");
+        toast.error("Error al eliminar servicio");
       }
     }
   };

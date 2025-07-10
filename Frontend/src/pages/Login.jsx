@@ -8,6 +8,7 @@ import {
   Button,
   Box
 } from '@mui/material';
+import { toast } from 'react-toastify';
 
 function Login() {
   const [email, setEmail] = useState('');
@@ -19,10 +20,10 @@ function Login() {
     try {
       const res = await API.post('/auth/login', { email, password });
       login(res.data.user, res.data.token);
-      alert('Login exitoso 🚀');
+      toast.success('Login exitoso 🚀');
     } catch (err) {
       console.error(err);
-      alert('Error al iniciar sesión');
+      toast.error('Error al iniciar sesión');
     }
   };
 

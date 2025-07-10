@@ -9,6 +9,7 @@ import {
 } from "@mui/material";
 import API from "../../api/axios";
 import { useNavigate } from "react-router-dom";
+import { toast } from 'react-toastify';
 
 const AddServiceForm = () => {
   const navigate = useNavigate();
@@ -33,11 +34,11 @@ const AddServiceForm = () => {
         ...service,
         price: Number(service.price)
       });
-      alert("Servicio creado con éxito");
+      toast.success("Servicio creado con éxito");
       navigate("/admin/services");
     } catch (err) {
       console.error(err);
-      alert("Error al crear servicio");
+      toast.error("Error al crear servicio");
     }
   };
 
