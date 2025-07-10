@@ -76,22 +76,22 @@ const Navbar = () => {
               open={Boolean(anchorEl)}
               onClose={handleClose}
             >
-              <MenuItem component={Link} to="/" onClick={handleClose}>Home</MenuItem>
+              <MenuItem component={Link} to="/" onClick={handleClose}>Inicio</MenuItem>
               <MenuItem component={Link} to="/services" onClick={handleClose}>Servicios</MenuItem>
               {user ? (
                 <>
                   <MenuItem component={Link} to="/profile" onClick={handleClose}>Perfil</MenuItem>
                   {isAdmin && (
                     <MenuItem component={Link} to="/admin/services" onClick={handleClose}>
-                      Admin
+                      Administración
                     </MenuItem>
                   )}
                   <MenuItem onClick={() => { logout(); handleClose(); }}>Salir</MenuItem>
                 </>
               ) : (
                 <>
-                  <MenuItem component={Link} to="/login" onClick={handleClose}>Login</MenuItem>
-                  <MenuItem component={Link} to="/register" onClick={handleClose}>Register</MenuItem>
+                  <MenuItem component={Link} to="/login" onClick={handleClose}>Iniciar sesión</MenuItem>
+                  <MenuItem component={Link} to="/register" onClick={handleClose}>Registrarse</MenuItem>
                 </>
               )}
               <MenuItem component={Link} to="/cart" onClick={handleClose}>
@@ -103,20 +103,20 @@ const Navbar = () => {
           </Box>
 
           <Box sx={{ display: { xs: 'none', md: 'flex' }, gap: 1 }}>
-            <Button color="inherit" component={Link} to="/">Home</Button>
+            <Button color="inherit" component={Link} to="/">Inicio</Button>
             <Button color="inherit" component={Link} to="/services">Servicios</Button>
             {user ? (
               <>
                 <Button color="inherit" component={Link} to="/profile">Perfil</Button>
                 {isAdmin && (
-                  <Button color="inherit" component={Link} to="/admin/services">Admin</Button>
+                  <Button color="inherit" component={Link} to="/admin/services">Administración</Button>
                 )}
                 <Button color="inherit" onClick={logout}>Salir</Button>
               </>
             ) : (
               <>
-                <Button color="inherit" component={Link} to="/login">Login</Button>
-                <Button color="inherit" component={Link} to="/register">Register</Button>
+                <Button color="inherit" component={Link} to="/login">Iniciar sesión</Button>
+                <Button color="inherit" component={Link} to="/register">Registrarse</Button>
               </>
             )}
             <IconButton color="inherit" component={Link} to="/cart">

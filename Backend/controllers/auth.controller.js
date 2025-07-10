@@ -1,7 +1,6 @@
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import User from '../models/User.js';
-import Cart from '../models/Cart.js';
 
 
 export const register = async (req, res) => {
@@ -15,14 +14,10 @@ export const register = async (req, res) => {
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    const newCart = new Cart({ products: [] });
-    await newCart.save();
-
     const newUser = new User({
       name,
       email,
-      password: hashedPassword,
-      cart: newCart._id
+      password: hashedPassword
     });
 
     await newUser.save();

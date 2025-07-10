@@ -1,5 +1,7 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
 import API from '../api/axios';
+import { AuthContext } from '../contexts/AuthContext.jsx';
 import {
   Container,
   Typography,
@@ -12,15 +14,20 @@ function Register() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const navigate = useNavigate();
+  const { login } = useContext(AuthContext);
 
   const handleRegister = async (e) => {
     e.preventDefault();
     try {
       await API.post('/auth/register', { name, email, password });
-      alert('Usuario registrado correctamente 🚀');
+      // Login automático tras registro
+      const res = await API.post('/auth/login', { email, password });
+      login(res.data.user, res.data.token);
       setName('');
       setEmail('');
       setPassword('');
+      navigate('/');
     } catch (err) {
       console.error(err);
       alert('Error al registrar usuario');

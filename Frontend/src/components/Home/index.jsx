@@ -94,22 +94,25 @@ const Home = () => {
         ¡Mantente informado con nuestras recomendaciones!
       </Typography>
 
-      <Box sx={{ maxWidth: 800, mx: 'auto' }}>
+      <Box sx={{ maxWidth: 800, mx: 'auto', width: '100%' }}>
         <Slider {...settings}>
           {infoCards.map((card, index) => (
-            <Box key={index} px={2}>
+            <Box key={index} px={{ xs: 0, sm: 2 }}>
               <Card
                 sx={{
-                  padding: 5,
-                  margin: 5,
-                  width: '80%',
+                  p: { xs: 1, sm: 5 },
+                  m: { xs: 0, sm: 2 },
+                  width: { xs: '96%', sm: '90%', md: '80%' },
+                  minWidth: 0,
                   display: 'flex',
                   flexDirection: 'column',
                   justifyContent: 'center',
                   textAlign: 'center',
                   borderRadius: 3,
                   boxShadow: 4,
-                  backgroundColor: '#E3F2FD'
+                  backgroundColor: '#E3F2FD',
+                  mx: 'auto',
+                  fontSize: { xs: '0.95rem', sm: '1rem' }
                 }}
               >
                 <CardContent>

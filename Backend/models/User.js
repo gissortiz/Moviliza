@@ -24,7 +24,7 @@ const userSchema = new mongoose.Schema({
   cart: {
     type: mongoose.Types.ObjectId,
     ref: 'Cart',
-    default: []
+    default: null
   }
 }, { timestamps: true });
 
