@@ -13,6 +13,7 @@ import { Link } from 'react-router-dom';
 import { useContext, useState } from 'react';
 import { AuthContext } from '../contexts/AuthContext.jsx';
 import { CartContext } from '../contexts/CartContext.jsx';
+import Logo from '../assets/images/logo.png'
 
 const Navbar = () => {
   const { user, logout } = useContext(AuthContext);
@@ -32,9 +33,33 @@ const Navbar = () => {
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static" sx={{ bgcolor: '#0E3359' }}>
         <Toolbar>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            Moviliza
-          </Typography>
+          <Box
+            component={Link}
+            to="/"
+            sx={{
+              flexGrow: 1,
+              display: 'flex',
+              alignItems: 'center',
+              textDecoration: 'none',
+            }}
+          >
+            <img
+              src={Logo}
+              alt="Moviliza logo"
+              style={{
+                height: '40px',
+              }}
+            />
+            <Typography
+              variant="h6"
+              sx={{
+                fontWeight: 'bold', color: 'white',
+              }}
+            >
+              Moviliza
+            </Typography>
+          </Box>
+
 
           <Box sx={{ display: { xs: 'block', md: 'none' } }}>
             <IconButton

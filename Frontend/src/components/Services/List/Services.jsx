@@ -1,4 +1,4 @@
-import { useEffect, useState, useContext } from 'react';
+import { useEffect, useState } from 'react';
 import API from '../../../api/axios.js';
 import {
   Container,
@@ -8,19 +8,13 @@ import {
   CardActions,
   Typography,
   Button,
-  IconButton,
   Box
 } from '@mui/material';
-import { AuthContext } from '../../../contexts/AuthContext.jsx';
-import { CartContext } from '../../../contexts/CartContext.jsx';
 import { Link } from 'react-router-dom';
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 
 const Services = () => {
   const [services, setServices] = useState([]);
-  const { user } = useContext(AuthContext);
-  const { addToCart } = useContext(CartContext);
 
   useEffect(() => {
     const fetchServices = async () => {
@@ -34,26 +28,6 @@ const Services = () => {
 
     fetchServices();
   }, []);
-
-  const handleAddToCart = (service) => {
-    if (!user) {
-      alert('Debes iniciar sesión para agregar al carrito.');
-      return;
-    }
-
-    addToCart({
-      id: service._id,
-      name: service.name,
-      price_data: service.price,
-      priceID: service.priceID,
-      stripeID: service.idService,
-      slug: service.slug,
-      img: service.imageUrl,
-      price: service.price
-    });
-
-    alert(`"${service.name}" agregado al carrito 🚀`);
-  };
 
   return (
     <Container
@@ -79,12 +53,17 @@ const Services = () => {
           <Grid item xs={12} sm={6} md={4} lg={3} key={service._id}>
             <Card
               sx={{
-                height: '100%',
-                boxShadow: 4,
-                borderRadius: 2,
-                display: 'flex',
+                maxWidth: 400,
+                height: 200,
+                width: 200,
+                padding: 4,
+                margin: 4,
+                display: 'block',
                 flexDirection: 'column',
                 justifyContent: 'space-between',
+                textAlign: 'center',
+                boxShadow: 4,
+                borderRadius: 2,
                 transition: 'transform 0.2s',
                 '&:hover': { transform: 'scale(1.02)' },
                 backgroundColor: '#fff'
@@ -94,15 +73,12 @@ const Services = () => {
                 <Typography variant="h6" gutterBottom sx={{ color: '#424242' }}>
                   {service.name}
                 </Typography>
-                <Typography variant="body2" sx={{ mb: 2 }}>
-                  {service.description}
-                </Typography>
                 <Typography variant="subtitle1" sx={{ color: '#0E3359', fontWeight: 'bold' }}>
                   ${service.price}
                 </Typography>
               </CardContent>
 
-              <CardActions sx={{ justifyContent: 'space-between', px: 2, pb: 2 }}>
+              <CardActions sx={{ justifyContent: 'center', px: 2, pb: 2 }}>
                 <Button
                   size="small"
                   variant="outlined"
@@ -113,12 +89,6 @@ const Services = () => {
                 >
                   Ver más
                 </Button>
-                <IconButton
-                  sx={{ color: '#6A1B9A' }}
-                  onClick={() => handleAddToCart(service)}
-                >
-                  <ShoppingCartIcon />
-                </IconButton>
               </CardActions>
             </Card>
           </Grid>

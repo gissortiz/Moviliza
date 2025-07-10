@@ -1,7 +1,41 @@
-import { Box, Button, Container, Grid, Typography, Card, CardContent } from '@mui/material';
+import { Box, Button, Container, Typography, Card, CardContent } from '@mui/material';
 import { Link } from 'react-router-dom';
+import Slider from "react-slick";
+
 
 const Home = () => {
+
+  const infoCards = [
+    {
+      title: 'Kinesiología deportiva y traumatológica',
+      text: 'Recupera tu rendimiento y calidad de vida con terapias especializadas para lesiones deportivas y traumatológicas'
+    },
+    {
+      title: 'Planes de prevención y recuperación de lesiones',
+      text: 'Te acompañamos en tu recuperación integral y prevenimos lesiones para que sigas activo y sin limitaciones.'
+    },
+    {
+      title: 'Talleres de adulto mayor',
+      text: 'Sesiones grupales para mantener funcionalidad, equilibrio y bienestar en la tercera edad.'
+    },
+  ];
+
+  const settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1, // Cambia a 2 si quieres ver 2 cards en desktop
+    slidesToScroll: 1,
+    autoplay: true,
+    autoplaySpeed: 6000,
+    responsive: [
+      {
+        breakpoint: 900,
+        settings: { slidesToShow: 1 }
+      }
+    ]
+  };
+
   return (
     <Container sx={{ my: 8 }}>
       <Typography variant="h3" align="center" gutterBottom sx={{ color: '#0D47A1', fontWeight: 'bold' }}>
@@ -34,15 +68,13 @@ const Home = () => {
         variant="contained"
         size="large"
         component={Link}
-        to="/services"
+        to="/services/686e9f8a9b24fd3d63315ce0"
         sx={{
           display: 'block',
           mx: 'auto',
           mb: 4,
           backgroundColor: '#1976D2',
-          '&:hover': {
-            backgroundColor: '#1565C0',
-          },
+          '&:hover': { backgroundColor: '#1565C0' },
           color: '#fff',
           textTransform: 'none',
           fontWeight: 'bold',
@@ -57,63 +89,46 @@ const Home = () => {
         Reserva tu evaluación inicial
       </Button>
 
-      <Grid
-        container spacing={4}
-        justifyContent="center"
-        display="block"
-      >
-        {[
-          {
-            title: 'Kinesiología deportiva y traumatológica',
-            text: 'Recupera tu rendimiento y calidad de vida con terapias especializadas para lesiones deportivas y traumatológicas'
-          },
-          {
-            title: 'Planes de prevención y recuperación de lesiones',
-            text: ' Te acompañamos en tu recuperación integral y prevenimos lesiones para que sigas activo y sin limitaciones.'
-          },
-          {
-            title: 'Talleres de adulto mayor',
-            text: 'Sesiones grupales para mantener funcionalidad, equilibrio y bienestar en la tercera edad.'
-          },
-        ].map((card, index) => (
-          <Grid
-            item
-            xs={12}
-            sm={6}
-            md={4}
-            key={index}
-            sx={{ display: 'flex' }}
-          >
-            <Card
-              sx={{
-                p: 3,
-                flexGrow: 1,
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'center',
-                textAlign: 'center',
-                borderRadius: 3,
-                boxShadow: 4,
-                backgroundColor: '#E3F2FD',
-                margin: '10px'
-              }}
-            >
-              <CardContent>
-                <Typography
-                  variant="h6"
-                  gutterBottom
-                  sx={{ color: '#1976D2', fontWeight: 'bold' }}
-                >
-                  {card.title}
-                </Typography>
-                <Typography sx={{ color: '#333' }}>
-                  {card.text}
-                </Typography>
-              </CardContent>
-            </Card>
-          </Grid>
-        ))}
-      </Grid>
+      <Typography variant="body1" align="center" sx={{ maxWidth: 600, mx: 'auto', mb: 4 }}>
+        Cada mes compartimos consejos y novedades para acompañar tu bienestar.
+        ¡Mantente informado con nuestras recomendaciones!
+      </Typography>
+
+      <Box sx={{ maxWidth: 800, mx: 'auto' }}>
+        <Slider {...settings}>
+          {infoCards.map((card, index) => (
+            <Box key={index} px={2}>
+              <Card
+                sx={{
+                  padding: 5,
+                  margin: 5,
+                  width: '80%',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'center',
+                  textAlign: 'center',
+                  borderRadius: 3,
+                  boxShadow: 4,
+                  backgroundColor: '#E3F2FD'
+                }}
+              >
+                <CardContent>
+                  <Typography
+                    variant="h6"
+                    gutterBottom
+                    sx={{ color: '#1976D2', fontWeight: 'bold' }}
+                  >
+                    {card.title}
+                  </Typography>
+                  <Typography sx={{ color: '#333' }}>
+                    {card.text}
+                  </Typography>
+                </CardContent>
+              </Card>
+            </Box>
+          ))}
+        </Slider>
+      </Box>
     </Container>
   );
 };

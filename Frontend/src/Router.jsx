@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, Outlet, Navigate } from "react-router-dom";
+import { Routes, Route, Outlet, Navigate } from "react-router-dom";
 import Home from './components/Home/index.jsx';
 import Services from './components/Services/List/Services.jsx';
 import Login from './pages/Login';
@@ -11,6 +11,8 @@ import AdminServices from "./pages/admin/AdminServices.jsx";
 import AddServiceForm from "./components/Admin/AddServiceForm.jsx";
 import { AuthContext } from './contexts/AuthContext.jsx';
 import { useContext } from 'react';
+import PaymentSuccess from './pages/PaymentSuccess.jsx';
+import PaymentFailed from './pages/PaymentFailed.jsx';
 
 const AdminRoute = () => {
   const { user } = useContext(AuthContext);
@@ -20,9 +22,11 @@ const AdminRoute = () => {
 
 const Router = () => {
   return (
-    <BrowserRouter>
+    
       <Routes>
         <Route path="/" element={<Layout />}>
+          <Route path="/success" element={<PaymentSuccess />} />
+          <Route path="/failed" element={<PaymentFailed />} />
           <Route index element={<Home />} />
           <Route path="services" element={<Services />} />
           <Route path="services/:id" element={<ServiceDetail />} />
@@ -36,7 +40,7 @@ const Router = () => {
           </Route>
         </Route>
       </Routes>
-    </BrowserRouter>
+    
   );
 };
 

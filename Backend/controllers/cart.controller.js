@@ -43,15 +43,15 @@ export const createCheckoutSession = async (req, res) => {
     const session = await stripe.checkout.sessions.create({
       line_items: lineItems,
       mode: 'payment',
-      success_url: process.env.STRIPE_SUCCESS_URL,
+      customer_email: user.email,
+      success_url: `${process.env.STRIPE_SUCCESS_URL}?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: process.env.STRIPE_CANCEL_URL,
-      customer_email: user.email
+      currency: 'clp'
     });
 
     res.json({ url: session.url });
 
   } catch (err) {
-    console.error(err);
     res.status(500).json({ msg: err.message });
   }
 };
@@ -89,3 +89,46 @@ export const editCart = async (req, res) => {
     res.status(500).json({ msg: err.message });
   }
 };
+
+
+export const getStripeSession = async (req, res) => {
+  try {
+    const session = await stripe.checkout.sessions.retrieve(req.params.id);
+
+    let carrito = null;
+
+    if (session.payment_status === 'paid') {
+      const foundUser = await User.findOne({ email: session.customer_email }).populate({
+        path: 'cart',
+        populate: { path: 'items.service' }
+      });
+
+      if (foundUser && foundUser.cart) {
+        foundUser.cart.items.forEach(item => {
+          if (item.payment_status === 'pago_pendiente') {
+            item.payment_status = 'pago_exitoso';
+          }
+        });
+
+        // 🚩 Forzar que Mongoose guarde cambios del array
+        foundUser.cart.markModified('items');
+
+        await foundUser.cart.save();
+
+        carrito = foundUser.cart;
+      }
+    } else {
+      console.log('ℹPago no completado, no se actualiza carrito');
+    }
+
+    res.json({
+      stripeSession: session,
+      carrito: carrito
+    });
+
+  } catch (err) {
+    res.status(500).json({ msg: err.message });
+  }
+};
+
+
