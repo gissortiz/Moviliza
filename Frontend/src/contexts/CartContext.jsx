@@ -13,7 +13,7 @@ const CartProvider = ({ children }) => {
   }, [cart]);
 
   const addToCart = (service) => {
-    const exists = cart.find(item => item.id === service.id || item._id === service._id);
+    const exists = cart.find(item => (item.id ?? item._id) === (service.id ?? service._id));
     if (exists) {
       alert('Este servicio ya está en el carrito.');
     } else {
