@@ -1,3 +1,4 @@
+# 🌐 Demo: https://moviliza-1.onrender.com/
 # 💪 Moviliza — Centro Integral de Kinesiología y Rehabilitación
 
 Moviliza es una aplicación web diseñada para gestionar reservas de servicios de kinesiología, talleres y atención integral, conectando pacientes con profesionales de forma sencilla, segura y eficaz.
@@ -40,40 +41,48 @@ Moviliza es una aplicación web diseñada para gestionar reservas de servicios d
 
 ## 📦 Usuarios (User)
 
-{  
-  name: String,  
-  email: String,  
-  password: String (hashed),  
-  cart: ObjectId -> Cart  
-}  
+```js
+{
+  name: String,
+  email: String,
+  password: String, // hashed
+  cart: ObjectId // referencia a Cart
+}
+```
 
 ## 🛒 Carrito (Cart)
 
-{  
-  user: ObjectId -> User,  
-  items: [  
-    {  
-      service: ObjectId -> Service,  
-      quantity: Number,  
-      priceID: String,  // Stripe Price ID  
-      date: String,     // Fecha y hora de reserva  
-      payment_status: String ('pago_pendiente' | 'pago_exitoso' | 'pago_rechazado')  
-    }  
-  ]  
-}  
+```js
+{
+  user: ObjectId, // referencia a User
+  items: [
+    {
+      service: ObjectId, // referencia a Service
+      quantity: Number,
+      priceID: String,      // Stripe Price ID
+      date: String,         // Fecha y hora de reserva
+      payment_status: String // 'pago_pendiente' | 'pago_exitoso' | 'pago_rechazado'
+    }
+  ],
+  createdAt: Date,         // Fecha de creación (auto)
+  updatedAt: Date          // Fecha de actualización (auto)
+}
+```
 
 ## 📝 Servicios (Service)
 
-{  
-  name: String,  
-  description: String,  
-  price: Number,  
-  duration: String,  
-  imageUrl: String,  
-  slug: String,  
-  idService: String (Stripe Product ID),  
-  priceID: String (Stripe Price ID)  
-}  
+```js
+{
+  name: String,
+  description: String,
+  price: Number,
+  duration: String,
+  imageUrl: String,
+  slug: String,
+  idService: String, // Stripe Product ID
+  priceID: String    // Stripe Price ID
+}
+```
 
 # 🔑 Flujo Principal
 
@@ -106,4 +115,3 @@ npm run dev
 # Desarrollado por
 
 Gissella — Proyecto Bootcamp FullStack 2025
-
